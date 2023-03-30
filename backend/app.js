@@ -5,6 +5,9 @@ const helmet = require('helmet');
 const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
 const { NOTFOUND } = require('./utils/errors');
+const { login, createUser } = require('./controllers/users');
+const auth = require('./middleware/auth');
+require('dotenv').config();
 
 const app = express();
 
@@ -14,14 +17,9 @@ app.use(helmet());
 const jsonParser = bodyParser.json();
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
-app.use((req, res, next) => {
-  req.user = {
-    _id: '64035c3ec61732d53d055169',
-  };
-
-  next();
-});
-
+app.post('/signin', login);
+app.post('/signup', createUser);
+app.use(auth);
 app.use('/', jsonParser, usersRouter);
 
 app.use('/', jsonParser, cardsRouter);

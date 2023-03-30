@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { BADREQUEST, NOTFOUND, SERVERERROR } = require('../utils/errors');
+const { BADREQUEST, NOTFOUND, SERVERERROR, FORBIDDEN } = require('../utils/errors');
 
 const getCards = (req, res) => {
   Card.find({})
@@ -18,6 +18,9 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
+  if (req.params.id !== req.user._id) {
+    res.status(FORBIDDEN).send({ message: 'Access Forbidden' });
+  }
   Card.findByIdAndRemove(req.params.id)
     .then((doc) => {
       if (doc) {

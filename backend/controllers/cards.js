@@ -1,15 +1,13 @@
 const BadRequestError = require('../errors/bad-request-error');
 const ForbiddenError = require('../errors/forbidden-err');
 const NotFoundError = require('../errors/not-found-error');
-const ServerError = require('../errors/server-err');
 const Card = require('../models/card');
-const { BADREQUEST, NOTFOUND, SERVERERROR, FORBIDDEN } = require('../utils/errors');
 
 const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
-    .catch(() => {
-      next(new ServerError('An error has occured on the server'));
+    .catch((err) => {
+      next(err);
     });
 };
 

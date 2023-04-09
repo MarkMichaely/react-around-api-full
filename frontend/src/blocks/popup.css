@@ -1,0 +1,115 @@
+.popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0.3s linear, opacity 300ms;
+}
+
+.popup_opened {
+	visibility: visible;
+	opacity: 1;
+	transition: visibility 0s linear 0s, opacity 300ms;
+}
+.popup__box {
+	background: #ffffff;
+	box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+	width: 430px;
+	border-radius: 10px;
+}
+.popup__header {
+	display: flex;
+	justify-content: space-between;
+	margin: 34px auto 50px auto;
+	max-width: 76.7%;
+}
+.popup__title {
+	font-family: "Inter", Arial, sans-serif;
+	font-style: normal;
+	font-weight: 900;
+	font-size: 24px;
+	line-height: 1.203;
+	color: #000000;
+	width: 330px;
+	margin: 0;
+}
+.popup__close-btn {
+	border: none;
+	background-color: transparent;
+	padding: 0;
+	position: relative;
+	top: -74px;
+	right: -88px;
+	transition: ease 0.2s;
+	opacity: 1;
+}
+.popup__close-btn:hover {
+	cursor: pointer;
+	opacity: 0.6;
+}
+.popup__close-sign {
+	width: 40px;
+	height: 40px;
+}
+.popup__image-wrapper {
+	max-width: calc(75vw + 40px);
+	display: flex;
+	flex-direction: column;
+}
+.popup__card-image {
+	max-width: 75vw;
+	max-height: 75vh;
+}
+.popup__card-title {
+	font-family: "Inter", Arial, sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 10px 0 0 0;
+	color: #ffffff;
+}
+.popup__close-btn_type_image {
+	top: 0;
+	right: 0;
+	margin-left: 100%;
+}
+
+@media screen and (max-width: 597px) {
+	.popup__box {
+		width: 282px;
+	}
+	.popup__header {
+		margin-top: 25px;
+		margin-bottom: 66px;
+		max-width: 84.4%;
+	}
+	.popup__title {
+		font-size: 18px;
+		line-height: 22px;
+	}
+	.popup__close-btn {
+		right: -15px;
+	}
+	.popup__close-sign {
+		height: 28px;
+		width: 28px;
+	}
+	.popup__close-btn_type_image {
+		top: 0;
+		right: 0;
+	}
+	.popup__close-sign_type_image {
+		width: 30px;
+		height: 30px;
+	}
+}

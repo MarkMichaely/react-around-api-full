@@ -1,0 +1,4 @@
+.main {
+  max-width: min(880px, calc(100vw - 17px));
+  margin: 0 auto;
+}

@@ -89,20 +89,14 @@ const updateProfileAvatar = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { password, email } = req.body;
-  return User.findOne({ email }).select('+password')
+  return User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) {
-        throw new UnathorizedError("incorrect email or password");
-      }
-      return bcrypt.compare(password, user.password);
-    })
-    .then((matched) => {
-      if (!matched) {
-        throw new UnathorizedError("incorrect email or password");
-      }
-      const token = jwt.sign({ _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string',
+      const id = user._id.valueOf();
+      const token = jwt.sign({ _id: id },
+        // NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string',
+        'not-so-secret-string',
         { expiresIn: '7d' });
+
       res.send({ token });
     })
     .catch(next);

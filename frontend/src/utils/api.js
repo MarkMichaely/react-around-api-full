@@ -1,7 +1,6 @@
 class Api {
 	constructor({ baseUrl, headers }) {
 		this._baseUrl = baseUrl;
-		this.token = localStorage.getItem("token");
 		this._headers = headers;
 
 	}

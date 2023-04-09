@@ -188,7 +188,7 @@ function App() {
 					setIsLoggedIn(true);
 					history.push('/');
 				})
-				.catch((err) => console.log(`IT HERE HERE ${err}`));
+				.catch((err) => console.log(err));
 	}, [token]);
 
 	return (

@@ -32,6 +32,21 @@ function App() {
 	const [userEmail, setUserEmail] = useState('');
 	const [token, setToken] = useState(localStorage.getItem('jwt'));
 	const history = useHistory();
+	useEffect(() => {
+		if (localStorage.getItem('jwt')) {
+			setToken(localStorage.getItem('jwt'))
+			if (token)
+				checkJwt(token)
+					.then((res) => {
+						setUserEmail(res.email);
+						setIsLoggedIn(true);
+						history.push('/');
+					})
+					.catch((err) => console.log(err));
+		}
+
+	}, [token]);
+
 	React.useEffect(() => {
 		api
 			.getInitialCards(token)
@@ -85,7 +100,7 @@ function App() {
 		return () => document.removeEventListener("keydown", closeByEscape);
 	}, []);
 	function handleCardLike(card) {
-		const isLiked = card.likes.some((user) => user._id === currentUser._id);
+		const isLiked = card.likes.some((id) => id === currentUser._id);
 		api
 			.changeLikeCardStatus(card._id, isLiked, token)
 			.then((newCard) => {
@@ -180,16 +195,7 @@ function App() {
 		setIsLoggedIn(false);
 		history.push('/login');
 	}
-	useEffect(() => {
-		if (token)
-			checkJwt(token)
-				.then((res) => {
-					setUserEmail(res.email);
-					setIsLoggedIn(true);
-					history.push('/');
-				})
-				.catch((err) => console.log(err));
-	}, [token]);
+
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>

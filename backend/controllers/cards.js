@@ -22,9 +22,6 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  if (req.params.id !== req.user._id) {
-    throw new ForbiddenError('Access Forbidden');
-  }
   Card.findByIdAndRemove(req.params.id)
     .then((doc) => {
       if (doc) {

@@ -14,28 +14,31 @@ class Api {
 	_request = (url, options) => fetch(url, options).then(this._checkResponse);
 
 	getUserInfo(token) {
-		return this._request(`${this.url}/users/me`, {
+		return this._request(`http://localhost:3001/users/me`, {
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json',
+				'accept': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 		});
 	}
 	getInitialCards(token) {
-		return this._request(`${this.url}/cards`, {
+		return this._request(`http://localhost:3001/cards`, {
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json',
+				'accept': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 		});
 	}
 	setUserInfo({ name, about }, token) {
-		return this._request(`${this.url}/users/me`, {
+		return this._request(`http://localhost:3001/users/me`, {
 			method: "PATCH",
 			headers: {
 				'Content-Type': 'application/json',
+				'accept': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 			body: JSON.stringify({
@@ -46,10 +49,11 @@ class Api {
 	}
 
 	addCard({ name, link }, token) {
-		return this._request(`${this.url}/cards`, {
+		return this._request(`http://localhost:3001/cards`, {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json',
+				'accept': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 			body: JSON.stringify({
@@ -59,10 +63,11 @@ class Api {
 		});
 	}
 	removeCard(cardId, token) {
-		return this._request(`${this.url}/cards/${cardId}`, {
+		return this._request(`http://localhost:3001/cards/${cardId}`, {
 			method: "DELETE",
 			headers: {
 				'Content-Type': 'application/json',
+				'accept': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 		});
@@ -70,18 +75,21 @@ class Api {
 
 	changeLikeCardStatus(cardId, isLiked, token) {
 		if (!isLiked) {
-			return this._request(`${this.url}/cards/likes/${cardId}`, {
+			return this._request(`http://localhost:3001/cards/${cardId}/likes`, {
 				method: "PUT",
 				headers: {
 					'Content-Type': 'application/json',
+					'accept': 'application/json',
+
 					Authorization: `Bearer ${token}`
 				},
 			});
 		} else {
-			return this._request(`${this.url}/cards/likes/${cardId}`, {
+			return this._request(`http://localhost:3001/cards/${cardId}/likes`, {
 				method: "DELETE",
 				headers: {
 					'Content-Type': 'application/json',
+					'accept': 'application/json',
 					Authorization: `Bearer ${token}`
 				},
 			});
@@ -89,10 +97,11 @@ class Api {
 	}
 
 	setAvatar(link, token) {
-		return this._request(`${this.url}/users/me/avatar`, {
+		return this._request(`http://localhost:3001/users/me/avatar`, {
 			method: "PATCH",
 			headers: {
 				'Content-Type': 'application/json',
+				'accept': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 			body: JSON.stringify({
@@ -102,10 +111,9 @@ class Api {
 	}
 
 }
-
-export const api = new Api({
-	baseUrl: "http://localhost:3001",
-	headers: {
-		"Content-Type": "application/json"
-	}
-});
+const baseUrl = "http://localhost:3001";
+const headers = {
+	"Content-Type": "application/json"
+};
+export const api = new Api({ baseUrl, headers }
+);

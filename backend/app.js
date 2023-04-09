@@ -10,6 +10,7 @@ const auth = require('./middleware/auth');
 const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-error');
 require('dotenv').config();
+const cors = require("cors");
 
 const app = express();
 
@@ -19,9 +20,10 @@ app.use(helmet());
 const jsonParser = bodyParser.json();
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
-
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.use(cors());
+app.options('*', cors());
+app.post('/login', jsonParser, login);
+app.post('/signup', jsonParser, createUser);
 app.use(auth);
 app.use('/', jsonParser, usersRouter);
 
@@ -32,6 +34,7 @@ app.use('*', (req, res) => {
 });
 app.use(errors());
 app.use((err, req, res, next) => {
+  console.log(err);
   const { statusCode = SERVERERROR, message } = err;
   res
     .status(statusCode)

@@ -11,6 +11,7 @@ const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-error');
 require('dotenv').config();
 const cors = require("cors");
+const { validateLogin, validateSignup } = require('./middleware/validation');
 
 const app = express();
 
@@ -22,12 +23,13 @@ const jsonParser = bodyParser.json();
 mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(cors());
 app.options('*', cors());
-app.post('/login', jsonParser, login);
-app.post('/signup', jsonParser, createUser);
+app.use(jsonParser);
+app.post('/login', validateLogin, login);
+app.post('/signup', validateSignup, createUser);
 app.use(auth);
-app.use('/', jsonParser, usersRouter);
+app.use('/', usersRouter);
 
-app.use('/', jsonParser, cardsRouter);
+app.use('/', cardsRouter);
 
 app.use('*', (req, res) => {
   throw new NotFoundError('Requested resource not found');

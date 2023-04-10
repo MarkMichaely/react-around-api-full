@@ -1,3 +1,4 @@
+const { Joi } = require('celebrate');
 const mongoose = require('mongoose');
 
 const cardSchema = mongoose.Schema({

@@ -34,7 +34,7 @@ function App() {
 	const history = useHistory();
 	useEffect(() => {
 		if (localStorage.getItem('jwt')) {
-			setToken(localStorage.getItem('jwt'))
+			setToken(localStorage.getItem('jwt'));
 			if (token)
 				checkJwt(token)
 					.then((res) => {
@@ -45,25 +45,27 @@ function App() {
 					.catch((err) => console.log(err));
 		}
 
-	}, [token]);
+	}, []);
 
 	React.useEffect(() => {
-		api
-			.getInitialCards(token)
-			.then((res) => {
-				setCards(res);
-			})
-			.catch((err) => console.log(err));
-	}, [token]);
+		if (isLoggedIn)
+			api
+				.getInitialCards(token)
+				.then((res) => {
+					setCards(res);
+				})
+				.catch((err) => console.log(err));
+	}, [isLoggedIn]);
 
 	React.useEffect(() => {
-		api
-			.getUserInfo(token)
-			.then((res) => {
-				setCurrentUser(res);
-			})
-			.catch((err) => console.log(err));
-	}, [token]);
+		if (isLoggedIn)
+			api
+				.getUserInfo(token)
+				.then((res) => {
+					setCurrentUser(res);
+				})
+				.catch((err) => console.log(err));
+	}, [isLoggedIn]);
 
 	const handleEditAvatarClick = () => {
 		setIsEditAvatarPopupOpen(true);

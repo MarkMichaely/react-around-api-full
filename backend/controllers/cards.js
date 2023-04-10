@@ -1,5 +1,4 @@
 const BadRequestError = require('../errors/bad-request-error');
-const ForbiddenError = require('../errors/forbidden-err');
 const NotFoundError = require('../errors/not-found-error');
 const Card = require('../models/card');
 
@@ -22,7 +21,7 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.id)
+  Card.findByIdAndRemove(req.params._id)
     .then((doc) => {
       if (doc) {
         res.send({ message: 'Card succesfully removed' });
@@ -35,7 +34,7 @@ const deleteCard = (req, res, next) => {
 
 const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
-    req.params.cardId,
+    req.params._id,
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
@@ -51,7 +50,7 @@ const likeCard = (req, res, next) => {
 
 const unLikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
-    req.params.cardId,
+    req.params._id,
     { $pull: { likes: req.user._id } },
     { new: true },
   )

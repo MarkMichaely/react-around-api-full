@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
   },
   about: {
     type: String,
-    default: "Explorer",
+    default: 'Explorer',
     minlength: 2,
     maxlength: 30,
   },
@@ -31,7 +31,7 @@ const userSchema = mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: (v) => isEmail(v)
+      validator: (v) => isEmail(v),
     },
   },
   password: {
@@ -42,15 +42,15 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.statics.findUserByCredentials = function (email, password) {
-  return this.findOne({ email }).select("+password")
+  return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(UnathorizedError("incorrect email or password"));
+        return Promise.reject(UnathorizedError('incorrect email or password'));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(UnathorizedError("incorrect email or password"));
+            return Promise.reject(UnathorizedError('incorrect email or password'));
           }
           return user;
         });

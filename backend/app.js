@@ -2,15 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
+const cors = require('cors');
 const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
 const { SERVERERROR } = require('./utils/errors');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
-const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-error');
 require('dotenv').config();
-const cors = require("cors");
 const { validateLogin, validateSignup } = require('./middleware/validation');
 
 const app = express();
@@ -36,14 +36,13 @@ app.use('*', (req, res) => {
 });
 app.use(errors());
 app.use((err, req, res, next) => {
-
   const { statusCode = SERVERERROR, message } = err;
   res
     .status(statusCode)
     .send({
       message: statusCode === SERVERERROR
         ? 'An error occurred on the server'
-        : message
+        : message,
     });
 });
 app.listen(PORT, () => {

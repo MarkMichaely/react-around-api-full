@@ -40,7 +40,7 @@ app.use('/', usersRouter);
 
 app.use('/', cardsRouter);
 
-app.use('*', (req, res) => {
+app.use('*', () => {
   throw new NotFoundError('Requested resource not found');
 });
 app.use(errorLogger);

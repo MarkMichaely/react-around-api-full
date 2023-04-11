@@ -2,12 +2,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
-  BADREQUEST, NOTFOUND, SERVERERROR, UNATHORIZED,
+  BADREQUEST,
 } = require('../utils/errors');
-const user = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
-const UnathorizedError = require('../errors/unauthrized-err');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -84,7 +82,7 @@ const updateProfileAvatar = (req, res, next) => {
   if (!avatar) res.status(BADREQUEST).send({ message: 'No link provided' });
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .orFail(() => {
-      throw NotFoundError('No user found'); y;
+      throw NotFoundError('No user found');
     })
     .then((user) => res.send(user))
     .catch((err) => {

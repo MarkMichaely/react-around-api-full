@@ -53,5 +53,10 @@ const validateUpdateProfile = celebrate({
   }),
 });
 module.exports = {
-  validateLogin, validateSignup, validateCreateCard, validateObjectId, validateUpdateAvatar, validateUpdateProfile
+  validateLogin,
+  validateSignup,
+  validateCreateCard,
+  validateObjectId,
+  validateUpdateAvatar,
+  validateUpdateProfile,
 };

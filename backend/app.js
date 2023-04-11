@@ -12,6 +12,7 @@ const auth = require('./middleware/auth');
 const NotFoundError = require('./errors/not-found-error');
 require('dotenv').config();
 const { validateLogin, validateSignup } = require('./middleware/validation');
+const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const app = express();
 
@@ -24,6 +25,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(cors());
 app.options('*', cors());
 app.use(jsonParser);
+app.use(requestLogger);
 app.post('/login', validateLogin, login);
 app.post('/signup', validateSignup, createUser);
 app.use(auth);
@@ -34,6 +36,7 @@ app.use('/', cardsRouter);
 app.use('*', (req, res) => {
   throw new NotFoundError('Requested resource not found');
 });
+app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = SERVERERROR, message } = err;

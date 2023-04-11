@@ -11,8 +11,7 @@ module.exports = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
-    // payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string');
-    payload = jwt.verify(token, 'not-so-secret-string');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string');
   } catch (err) {
     throw new ForbiddenError('Authorization required');
   }

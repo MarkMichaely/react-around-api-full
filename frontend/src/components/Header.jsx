@@ -4,13 +4,13 @@ export default function Header(props) {
 	return (
 		<header className="header">
 			<img src={logo} alt="around the us" className="logo" />
-			<Route path="/login">
+			<Route path="/signin">
 				<Link className="header__link" to="/signup">
 					Sign up
 				</Link>
 			</Route>
 			<Route path="/signup">
-				<Link className="header__link" to="/login">
+				<Link className="header__link" to="/signin">
 					Log in
 				</Link>
 			</Route>

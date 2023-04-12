@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "https://api.arreact.mooo.com";
 
 const customFetch = (url, heasders) => {
     return fetch(url, heasders).then(res => res.ok ? res.json() : Promise.reject(res.statusText));
@@ -22,7 +22,7 @@ export function register(password, email) {
 }
 
 export const login = (password, email) => {
-    return customFetch(`${BASE_URL}/login`, {
+    return customFetch(`${BASE_URL}/signin`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

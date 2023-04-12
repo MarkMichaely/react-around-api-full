@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
 const UnathorizedError = require('../errors/unauthrized-err');
+const { urlRegex } = require('../utils/regex');
+
 
 const userSchema = mongoose.Schema({
   name: {
@@ -21,7 +23,7 @@ const userSchema = mongoose.Schema({
     default: 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
     validate: {
       validator(v) {
-        return /^(http[s]?:\/\/[www]?)[a-zA-Z0-9-._~:/?%#[\]@!$&'()*+,;=]+\.[a-zA-Z]+\/?[a-zA-Z0-9-._~:/?%#[\]@!$&'()*+,;=]*$/i.test(v);
+        return urlRegex.test(v);
       },
       message: (props) => `${props.value} is not a valid URL`,
     },
@@ -45,12 +47,12 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(UnathorizedError('incorrect email or password'));
+        return Promise.reject(new UnathorizedError('incorrect email or password'));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(UnathorizedError('incorrect email or password'));
+            return Promise.reject(new UnathorizedError('incorrect email or password'));
           }
           return user;
         });

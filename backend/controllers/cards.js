@@ -1,5 +1,6 @@
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
+const ForbiddenError = require('../errors/forbidden-err');
 const Card = require('../models/card');
 
 const getCards = (req, res, next) => {
@@ -21,12 +22,17 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params._id)
-    .then((doc) => {
-      if (doc) {
-        res.send({ message: 'Card succesfully removed' });
-      } else throw NotFoundError('No card found');
-    }).catch((err) => {
+  const { _id } = req.params;
+  Card.findById(_id)
+    .orFail(() => new NotFoundError('No card found'))
+    .then((card) => {
+      if (!card.owner.equals(req.user._id)) {
+        return next(new ForbiddenError("Unathorized Access"));
+      }
+      return Card.deleteOne(_id)
+        .then(() => res.send({ message: 'Card succesfully removed' }))
+    })
+    .catch((err) => {
       if (err.name === 'CastError') next(new BadRequestError('unsupported cardId'));
       else next(err);
     });

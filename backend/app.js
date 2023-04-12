@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -10,7 +11,6 @@ const { SERVERERROR } = require('./utils/errors');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const NotFoundError = require('./errors/not-found-error');
-require('dotenv').config();
 const { validateLogin, validateSignup } = require('./middleware/validation');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
@@ -33,7 +33,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/login', validateLogin, login);
+app.post('/signin', validateLogin, login);
 app.post('/signup', validateSignup, createUser);
 app.use(auth);
 app.use('/', usersRouter);

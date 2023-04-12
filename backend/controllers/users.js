@@ -16,10 +16,9 @@ const getUsers = (req, res, next) => {
 };
 
 const getUserMe = (req, res, next) => {
-  if (!req.user._id) throw NotFoundError('No user found');
   User.findById(req.user._id)
     .orFail(() => {
-      throw NotFoundError('No user found');
+      throw new NotFoundError('No user found');
     })
     .then((user) => res.send(user))
     .catch((err) => {
@@ -31,7 +30,7 @@ const getUserMe = (req, res, next) => {
 const getUserById = (req, res, next) => {
   User.findById(req.params._id)
     .orFail(() => {
-      throw NotFoundError('No user found');
+      throw new NotFoundError('No user found');
     })
     .then((user) => res.send(user))
     .catch((err) => {
@@ -56,7 +55,10 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => res.status(201).send(user))
+    .then((user) => {
+      const { name, email } = user;
+      res.status(201).send({ name: name, email: email });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') next(new BadRequestError('wrong data for user'));
       else next(err);
@@ -68,7 +70,7 @@ const updateProfile = (req, res, next) => {
   if (!name || !about) throw new BadRequestError('insuffiecnt data for change');
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .orFail(() => {
-      throw NotFoundError('No user found');
+      throw new NotFoundError('No user found');
     })
     .then((user) => res.send(user))
     .catch((err) => {
@@ -82,7 +84,7 @@ const updateProfileAvatar = (req, res, next) => {
   if (!avatar) res.status(BADREQUEST).send({ message: 'No link provided' });
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .orFail(() => {
-      throw NotFoundError('No user found');
+      throw new NotFoundError('No user found');
     })
     .then((user) => res.send(user))
     .catch((err) => {

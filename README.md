@@ -17,6 +17,7 @@ this site is a simple registration and authentication to a site representing a p
 
 This project utilises the express.js framework for it's backend and React for it's frontend.
 
-**Link**
+**Links**
 
-https://www.arreact.mooo.com/
+site - https://www.arreact.mooo.com/
+production server - https://api.arreact.mooo.com/

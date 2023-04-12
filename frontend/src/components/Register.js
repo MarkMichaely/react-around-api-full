@@ -57,7 +57,7 @@ function Register({ isLoggedIn, children, ...props }) {
                 </fieldset>
             </form>
             <p className="auth__footer">
-                <Link to='/login' className="auth__link">  Already a member? Log in here!
+                <Link to='/signin' className="auth__link">  Already a member? Log in here!
                 </Link>
             </p>
         </div>

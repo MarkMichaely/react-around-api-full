@@ -165,7 +165,7 @@ function App() {
 		register(password, email)
 			.then(() => {
 				setIsRegisterSuccessful(true);
-				history.push('/login');
+				history.push('/signin');
 			})
 			.catch((err) => {
 				setIsRegisterSuccessful(false);
@@ -195,7 +195,7 @@ function App() {
 		localStorage.removeItem('jwt');
 		setToken('');
 		setIsLoggedIn(false);
-		history.push('/login');
+		history.push('/signin');
 	}
 
 
@@ -249,8 +249,8 @@ function App() {
 							</section>
 							<Footer />
 						</ProtectedRoute>
-						<Route path={'/login'}>
-							{isLoggedIn ? <Redirect to='/' /> : <Redirect to='/login' />}
+						<Route path={'/signin'}>
+							{isLoggedIn ? <Redirect to='/' /> : <Redirect to='/signin' />}
 							<Login onLogin={handleLogin} />
 						</Route>
 						<Route path={'/signup'}>
@@ -258,7 +258,7 @@ function App() {
 							<Register onRegister={handleRegister} />
 						</Route>
 						<Route>
-							{isLoggedIn ? <Redirect to='/' /> : <Redirect to='/login' />}
+							{isLoggedIn ? <Redirect to='/' /> : <Redirect to='/signin' />}
 						</Route>
 					</Switch>
 				</div>

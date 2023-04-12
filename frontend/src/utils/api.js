@@ -1,7 +1,7 @@
 class Api {
 	constructor({ baseUrl, headers }) {
-		this._baseUrl = baseUrl;
-		this._headers = headers;
+		this.baseUrl = baseUrl;
+		this.headers = headers;
 
 	}
 
@@ -14,7 +14,7 @@ class Api {
 	_request = (url, options) => fetch(url, options).then(this._checkResponse);
 
 	getUserInfo(token) {
-		return this._request(`http://localhost:3001/users/me`, {
+		return this._request(`${this.baseUrl}/users/me`, {
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ class Api {
 		});
 	}
 	getInitialCards(token) {
-		return this._request(`http://localhost:3001/cards`, {
+		return this._request(`${this.baseUrl}/cards`, {
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ class Api {
 		});
 	}
 	setUserInfo({ name, about }, token) {
-		return this._request(`http://localhost:3001/users/me`, {
+		return this._request(`${this.baseUrl}/users/me`, {
 			method: "PATCH",
 			headers: {
 				'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ class Api {
 	}
 
 	addCard({ name, link }, token) {
-		return this._request(`http://localhost:3001/cards`, {
+		return this._request(`${this.baseUrl}/cards`, {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ class Api {
 		});
 	}
 	removeCard(cardId, token) {
-		return this._request(`http://localhost:3001/cards/${cardId}`, {
+		return this._request(`${this.baseUrl}/cards/${cardId}`, {
 			method: "DELETE",
 			headers: {
 				'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ class Api {
 
 	changeLikeCardStatus(cardId, isLiked, token) {
 		if (!isLiked) {
-			return this._request(`http://localhost:3001/cards/${cardId}/likes`, {
+			return this._request(`${this.baseUrl}/cards/${cardId}/likes`, {
 				method: "PUT",
 				headers: {
 					'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ class Api {
 				},
 			});
 		} else {
-			return this._request(`http://localhost:3001/cards/${cardId}/likes`, {
+			return this._request(`${this.baseUrl}/cards/${cardId}/likes`, {
 				method: "DELETE",
 				headers: {
 					'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ class Api {
 	}
 
 	setAvatar(link, token) {
-		return this._request(`http://localhost:3001/users/me/avatar`, {
+		return this._request(`${this.baseUrl}/users/me/avatar`, {
 			method: "PATCH",
 			headers: {
 				'Content-Type': 'application/json',
@@ -111,9 +111,9 @@ class Api {
 	}
 
 }
-const baseUrl = "http://localhost:3001";
+const baseUrl = "https://api.arreact.mooo.com";
 const headers = {
 	"Content-Type": "application/json"
 };
-export const api = new Api({ baseUrl, headers }
+export const api = new Api({ baseUrl: baseUrl, headers: headers }
 );

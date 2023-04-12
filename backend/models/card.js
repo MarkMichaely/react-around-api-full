@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { urlRegex } = require('../utils/regex')
 
 const cardSchema = mongoose.Schema({
   name: {
@@ -12,7 +13,7 @@ const cardSchema = mongoose.Schema({
     required: [true, 'Picture required'],
     validate: {
       validator(v) {
-        return /^(http[s]?:\/\/[www]?)[a-zA-Z0-9-._~:/?%#[\]@!$&'()*+,;=]+\.[a-zA-Z]+\/?[a-zA-Z0-9-._~:/?%#[\]@!$&'()*+,;=]*$/i.test(v);
+        return urlRegex.test(v);
       },
       message: (props) => `${props.value} is not a valid URL`,
     },

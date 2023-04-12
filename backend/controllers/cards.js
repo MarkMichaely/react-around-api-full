@@ -29,7 +29,7 @@ const deleteCard = (req, res, next) => {
       if (!card.owner.equals(req.user._id)) {
         return next(new ForbiddenError("Unathorized Access"));
       }
-      return Card.deleteOne(_id)
+      return card.deleteOne()
         .then(() => res.send({ message: 'Card succesfully removed' }))
     })
     .catch((err) => {

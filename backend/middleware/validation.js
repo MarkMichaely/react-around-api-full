@@ -19,9 +19,6 @@ const validateLogin = celebrate({
   [Segments.BODY]: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().custom(validateURL),
   }),
 });
 
@@ -29,6 +26,13 @@ const validateSignup = celebrate({
   [Segments.BODY]: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
+    name: Joi.string().default('Jacques Cousteau').min(2)
+      .max(30),
+    about: Joi.string().default('Explorer').min(2)
+      .max(30),
+    avatar: Joi.string()
+      .default('https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg')
+      .custom(validateURL),
   }),
 });
 const validateObjectId = celebrate({

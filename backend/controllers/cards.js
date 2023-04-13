@@ -27,10 +27,10 @@ const deleteCard = (req, res, next) => {
     .orFail(() => new NotFoundError('No card found'))
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        return next(new ForbiddenError("Unathorized Access"));
+        return next(new ForbiddenError('Unathorized Access'));
       }
       return card.deleteOne()
-        .then(() => res.send({ message: 'Card succesfully removed' }))
+        .then(() => res.send({ message: 'Card succesfully removed' }));
     })
     .catch((err) => {
       if (err.name === 'CastError') next(new BadRequestError('unsupported cardId'));

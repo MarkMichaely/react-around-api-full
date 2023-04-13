@@ -55,9 +55,8 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => {
-      const { name, email } = user;
-      res.status(201).send({ name: name, email: email });
+    .then(() => {
+      res.status(201).send({ name, email });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') next(new BadRequestError('wrong data for user'));

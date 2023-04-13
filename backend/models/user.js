@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const UnathorizedError = require('../errors/unauthrized-err');
 const { urlRegex } = require('../utils/regex');
 
-
 const userSchema = mongoose.Schema({
   name: {
     type: String,
